@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" 
+    integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" 
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+    <div class="main_div">
+        <div class="music_container">
+            <h2 id="title">PERFECT</h2>
+            <h3 id="artist">Ed Sheeran</h3>
+            <div class="img_container">
+                <img src="Image/1.jpg" alt=""/>
+            </div>
+            <audio src="Audio/1.mp3"></audio>
+
+            <!---controls-->
+            <div class="music_controls">
+                <i class="fa-solid fa-backward" id="prev" title="Previous"></i>
+                <i class="fa-solid fa-play main_button" id="play" title="play"></i>
+                <i class="fa-solid fa-forward" id="next" title="Next"></i>
+            </div>
+        </div>
+    </div>
+    <script>
+        const music = document.querySelector("audio");
+        const img = document.querySelector("img")
+        const play = document.getElementById("play");
+        const artist = document.getElementById("artist");
+        const title = document.getElementById("title");
+        const prev = document.getElementById("prev");
+        const next = document.getElementById("next");
+
+        const songs = [
+            {
+                name: "1",
+                title: "Perfect",
+                artist: "Ed Sheeran",
+            },
+            {
+                name: "2",
+                title: "Dandelions",
+                artist: "Ruth. B",
+            },
+            {
+                name: "3",
+                title: "Double Take",
+                artist: "Dhruv",
+            },
+        ];
+
+        let isplaying = false;
+
+        const playMusic = () => { 
+            isplaying = true;
+            music.play();
+            play.classList.replace("fa-play","fa-pause");
+            img.classList.add("anime");
+        };
+
+        const pauseMusic = () => { 
+            isplaying = false;
+            music.pause();
+            play.classList.replace("fa-pause","fa-play");
+            img.classList.remove("anime");
+        };
+
+        play.addEventListener('click',() => {
+            if(isplaying){
+                pauseMusic();
+            } else{
+                playMusic();
+            }
+        });
+
+        const loadSong = (songs) =>{
+            title.textContent = songs.title;
+            artist.textContent = songs.artist;
+            music.src = "Audio/"+songs.name+ ".mp3";
+            img.src = "Image/"+songs.name+ ".jpg";
+        };
+
+    songIndex = 0;
+
+    const nextSong = () =>{
+        songIndex = (songIndex + 1)%songs.length;
+        loadSong(songs[songIndex]);
+        playMusic();
+    };
+
+    const prevSong = () =>{
+        songIndex = (songIndex - 1 + songs.length)% songs.length;
+        loadSong(songs[songIndex]);
+        playMusic();
+    };
+
+    next.addEventListener('click',nextSong);
+    prev.addEventListener('click',prevSong);
+    </script>
+</body>
+</html>
